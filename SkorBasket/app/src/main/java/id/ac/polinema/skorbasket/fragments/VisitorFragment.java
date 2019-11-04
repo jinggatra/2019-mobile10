@@ -55,6 +55,45 @@ public class VisitorFragment extends Fragment {
 		scoreVisitor = view.findViewById(R.id.scoreVisitor);
 		scoreSatuVisitor = view.findViewById(R.id.scoreSatuVisitor);
 
+		sharedScore.getScoreVisitor().observe(requireActivity(), new Observer<Integer>() {
+			@Override
+			public void onChanged(Integer score) {
+				scoreVisitor = score;
+				if(scoreVisitor > scoreHome){
+					sharedScore.setWinner(false);
+				}
+			}
+		});
+
+		sharedScore.getScoreHome().observe(requireActivity(), new Observer<Integer>() {
+			@Override
+			public void onChanged(Integer score) {
+				scoreHome = score;
+				if(scoreVisitor < scoreHome){
+					sharedScore.setWinner(true);
+				}
+			}
+		});
+
+		sharedScore.getWinner().observe(requireActivity(), new Observer<Boolean>() {
+			@Override
+			public void onChanged(Boolean winner) {
+				if (winner){
+					txtWinner.setText("Home Win");
+				} else{
+					txtWinner.setText("Visitor Win");
+				}
+			}
+		});
+
+		btnReset.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				sharedScore.setScoreVisitor(0);
+				sharedScore.setScoreHome(0);
+			}
+		});
+
 
 		// Tambahkan logic tombol di bagian bawah ini
 		scoreDuaVisitor.setOnClickListener(new View.OnClickListener() {
