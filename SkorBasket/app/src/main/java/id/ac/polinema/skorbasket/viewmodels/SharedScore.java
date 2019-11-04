@@ -5,11 +5,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProviders;
 
-public class SharedScore {
+public class SharedScore extends AndroidViewModel {
     private MutableLiveData<Integer> scoreHome;
     private MutableLiveData<Integer> scoreVisitor;
     private MutableLiveData<Boolean> winner;
@@ -20,11 +21,13 @@ public class SharedScore {
         scoreVisitor = new MutableLiveData<>();
         winner = new MutableLiveData<>();
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedScore =  ViewModelProviders.of(requireActivity()).get(SharedScore.class);
     }
+
     public void setScoreHome(Integer score){
         scoreHome.setValue(score);
     }
